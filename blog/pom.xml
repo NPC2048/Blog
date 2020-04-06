@@ -83,6 +83,10 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
 		<!-- apache end -->
 
 		<!-- 七牛云 SDK begin -->
@@ -92,6 +96,14 @@
 			<version>${qiniu.version}</version>
 		</dependency>
 		<!-- 七牛云 SDK end -->
+
+		<!-- 其他 begin -->
+		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<!-- 其他 end -->
 
 		<!-- test begin -->
 		<dependency>

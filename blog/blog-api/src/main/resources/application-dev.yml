@@ -17,7 +17,7 @@ spring:
         max-lifetime: 180000
   redis:
     host: 192.168.43.182
-    port: 6607
+    port: 6609
     password: F33443319AFC277E55A5FC4C846AE63Af33443319afc277e55a5fc4c846ae63a
     timeout: 2s
     lettuce:
