@@ -1,0 +1,163 @@
+{
+  "id": "1605331",
+  "name": "plant",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-plant-",
+  "description": "植物图标",
+  "glyphs": [
+    {
+      "icon_id": "8039793",
+      "name": "荷叶",
+      "font_class": "heye",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "8039794",
+      "name": "扇形叶",
+      "font_class": "shanxingye",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "8039795",
+      "name": "心形叶",
+      "font_class": "xinxingye",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "8039796",
+      "name": "树叶5",
+      "font_class": "shuye90",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "8039797",
+      "name": "树5",
+      "font_class": "shu",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "8039798",
+      "name": "心形草",
+      "font_class": "xinxingcao",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "8039799",
+      "name": "枫叶",
+      "font_class": "fengye",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "8039800",
+      "name": "树叶3",
+      "font_class": "shuye91",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "8039801",
+      "name": "树叶2",
+      "font_class": "shuye92",
+      "unicode": "e688",
+      "unicode_decimal": 59016
+    },
+    {
+      "icon_id": "8039802",
+      "name": "椰子树1",
+      "font_class": "yezishu",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "8039803",
+      "name": "树3",
+      "font_class": "shu1",
+      "unicode": "e695",
+      "unicode_decimal": 59029
+    },
+    {
+      "icon_id": "8039804",
+      "name": "松树",
+      "font_class": "songshu",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "8039805",
+      "name": "树4",
+      "font_class": "shu2",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "8039806",
+      "name": "松树2",
+      "font_class": "songshu1",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    },
+    {
+      "icon_id": "8039807",
+      "name": "树叶1",
+      "font_class": "shuye93",
+      "unicode": "e699",
+      "unicode_decimal": 59033
+    },
+    {
+      "icon_id": "8039808",
+      "name": "树叶4",
+      "font_class": "shuye94",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "8039809",
+      "name": "树1",
+      "font_class": "shu3",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
+      "icon_id": "8039810",
+      "name": "针叶",
+      "font_class": "zhenye",
+      "unicode": "e69c",
+      "unicode_decimal": 59036
+    },
+    {
+      "icon_id": "8039811",
+      "name": "椰子树2",
+      "font_class": "yezishu1",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    },
+    {
+      "icon_id": "8039812",
+      "name": "树2",
+      "font_class": "shu4",
+      "unicode": "e69e",
+      "unicode_decimal": 59038
+    },
+    {
+      "icon_id": "8039813",
+      "name": "树7",
+      "font_class": "shu5",
+      "unicode": "e69f",
+      "unicode_decimal": 59039
+    },
+    {
+      "icon_id": "8039814",
+      "name": "树6",
+      "font_class": "shu6",
+      "unicode": "e6a0",
+      "unicode_decimal": 59040
+    }
+  ]
+}
