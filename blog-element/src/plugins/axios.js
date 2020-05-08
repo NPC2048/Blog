@@ -7,7 +7,7 @@ import store from '../store/index';
 Vue.use(VueAxios, axios);
 
 // 接口 url
-axios.defaults.baseURL = "http://localhost:8091";
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 // 超时时间，7 秒视为超时
 axios.defaults.timeout = 7000;
 axios.defaults.withCredentials = true;

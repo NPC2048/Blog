@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: blog-api
@@ -44,3 +45,7 @@ qiniu:
   secret-key: I9J7QQbfaRjPh593Dyhqy7ottiP-JhwHyUaQiSas
   bucket: npc2048-file-server
   access-domain: http://q6cmjst9i.bkt.clouddn.com
+# 日志配置
+logging:
+  file:
+    name: spring.log
