@@ -21,7 +21,8 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param id 用户 id
      * @return 角色集合
      */
-    @Select("select * from blog_role r LEFT JOIN blog_user_role ur ON r.id = ur.role_id AND ur.user_id=#{id}")
+    @Select("select * from blog_role r LEFT JOIN blog_user_r" +
+            "ole ur ON r.id = ur.role_id AND ur.user_id=#{id}")
     @Results({
             @Result(column = "role_id", property = "permissions",
                     javaType = Set.class, many = @Many(select = "com.liangyuelong.blog.dao.PermissionMapper.listByRoleId"))

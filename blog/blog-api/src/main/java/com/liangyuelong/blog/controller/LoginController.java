@@ -7,14 +7,14 @@ import com.liangyuelong.blog.common.constant.GlobalConstants;
 import com.liangyuelong.blog.common.enums.MailTemplateEnum;
 import com.liangyuelong.blog.common.form.LoginForm;
 import com.liangyuelong.blog.common.form.RegisterForm;
-import com.liangyuelong.blog.utils.CommUtils;
-import com.liangyuelong.blog.utils.EmailUtils;
-import com.liangyuelong.blog.utils.VerifyCodeUtils;
 import com.liangyuelong.blog.entity.BlogUser;
 import com.liangyuelong.blog.service.UserService;
+import com.liangyuelong.blog.utils.EmailUtils;
+import com.liangyuelong.blog.utils.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
@@ -151,7 +151,7 @@ public class LoginController {
     @ResponseBody
     public Result login(@Valid LoginForm form) {
         // 判断登录次数是否已经超过 3 次
-        int loginNumber = CommUtils.null2Int((Integer) redisTemplate.opsForValue().get(GlobalConstants.LOGIN_NUM + form.getUsername()));
+        int loginNumber = NumberUtils.toInt((String) redisTemplate.opsForValue().get(GlobalConstants.LOGIN_NUM + form.getUsername()));
         boolean isNeedValid = loginNumber > 3;
         if (isNeedValid) {
             // 判断验证码
@@ -170,13 +170,13 @@ public class LoginController {
             blogUser = this.userService.selectByMail(form.getUsername());
         }
         if (blogUser == null) {
-            redisTemplate.opsForValue().set(GlobalConstants.LOGIN_NUM, loginNumber + 1);
+            redisTemplate.opsForValue().set(GlobalConstants.LOGIN_NUM, loginNumber + 1, 1, TimeUnit.HOURS);
             return Result.failed("用户名|邮箱|密码错误");
         }
 
         // 验证密码
         if (!passwordEncoder.matches(form.getPassword(), blogUser.getPassword())) {
-            redisTemplate.opsForValue().set(GlobalConstants.LOGIN_NUM, loginNumber + 1);
+            redisTemplate.opsForValue().set(GlobalConstants.LOGIN_NUM, loginNumber + 1, 1, TimeUnit.HOURS);
             return Result.failed("用户名|邮箱|密码错误");
         }
         // 校验通过, 生成 token 存入 redis 并返回

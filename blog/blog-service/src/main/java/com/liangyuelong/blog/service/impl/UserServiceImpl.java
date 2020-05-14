@@ -23,7 +23,7 @@ import java.io.Serializable;
 public class UserServiceImpl extends ServiceImpl<UserMapper, BlogUser> implements UserService {
 
     @Override
-    @Cacheable
+    @Cacheable(unless = "#result == null")
     public BlogUser selectByUsername(String username) {
         return baseMapper.selectByUsername(username);
     }
