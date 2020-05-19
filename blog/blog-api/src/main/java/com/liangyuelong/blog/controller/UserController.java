@@ -179,18 +179,19 @@ public class UserController {
             blogUser = this.userService.selectByMail(form.getUsername());
         }
         if (blogUser == null) {
-            redisTemplate.opsForValue().set(GlobalConstants.LOGIN_NUM, loginNumber + 1, 1, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(loginNumberKey, loginNumber + 1, 1, TimeUnit.HOURS);
             return Result.failed("该用户不存在");
         }
 
         // 验证密码
         if (!passwordEncoder.matches(form.getPassword(), blogUser.getPassword())) {
-            redisTemplate.opsForValue().set(GlobalConstants.LOGIN_NUM, loginNumber + 1, 1, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(loginNumberKey, loginNumber + 1, 1, TimeUnit.HOURS);
             return Result.failed("用户名|邮箱|密码错误");
         }
         // 校验通过, 生成 token 存入 redis 并返回
         String token = generateToken(blogUser.getUsername(), form.getPassword());
         // 删除 redis 中的登录次数
+        redisTemplate.delete(loginNumberKey);
         return Result.success((Object) token);
     }
 
