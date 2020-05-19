@@ -20,7 +20,6 @@ axios.interceptors.request.use(config => {
   };
 
   if (store.state.token) {
-    Message.info(JSON.stringify(store.state.token));
     config.headers.Authorization = store.state.token;
   }
   return config;
@@ -90,7 +89,7 @@ axios.interceptors.response.use(response => {
         Message.error("连接错误");
     }
   } else {
-    Message.error(`连接错误a${error}`)
+    Message.error(`连接错误: ${error}`)
   }
   return Promise.reject(error.response);
 });

@@ -5,8 +5,6 @@ import com.liangyuelong.blog.entity.Blog;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * 博客分页查询表单
  *
@@ -16,7 +14,14 @@ import javax.validation.constraints.NotNull;
 @Data
 public class BlogPageForm extends Page<Blog> {
 
-    @NotNull(message = "id 不能为空")
-    private Long id;
+    /**
+     * 标题
+     */
+    private String title;
+
+    /**
+     * 内容
+     */
+    private String content;
 
 }

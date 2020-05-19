@@ -53,6 +53,7 @@ public class EmailUtils {
      * @return 是否发送成功
      */
     public static boolean sendHtml(String receiver, String subject, String html) {
+        log.info("===== send email begin =====");
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
@@ -61,6 +62,7 @@ public class EmailUtils {
             helper.setTo(receiver);
             helper.setText(html, true);
             sender.send(message);
+            log.info("send email: receiver: " + receiver + ", subject: " + subject + ", content: " + html);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;

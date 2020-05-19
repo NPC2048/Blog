@@ -28,7 +28,7 @@ public class UserServiceTest {
     public void test() {
         // 插入
         BlogUser user = new BlogUser();
-        user.setMail("npc2048@qq.com");
+        user.setEmail("npc2048@qq.com");
         user.setPassword("1234567");
         user.setUsername("npc20497");
         this.userService.save(user);
@@ -39,7 +39,7 @@ public class UserServiceTest {
     public void testUpdate() {
         // 测试更新
         BlogUser user = this.userService.getById(1235414632111792130L);
-        user.setMail("1316161154@qq.com");
+        user.setEmail("1316161154@qq.com");
         userService.updateById(user);
     }
 
@@ -54,7 +54,7 @@ public class UserServiceTest {
     public void testVersion() throws ExecutionException, InterruptedException {
         // 乐观锁
         BlogUser user = this.userService.getById(1235414632111792130L);
-        user.setMail("1259195133@qq.com");
+        user.setEmail("1259195133@qq.com");
         System.out.println(JsonUtils.toJson(user));
         this.userService.updateById(user);
 
@@ -102,7 +102,7 @@ public class UserServiceTest {
                     latch.await();
                     BlogUser user = new BlogUser();
                     user.setUsername("abcdef");
-                    user.setMail("npc2048@cbc.com");
+                    user.setEmail("npc2048@cbc.com");
                     user.setPassword("12333");
                     boolean b = this.userService.save(user);
                     System.out.println(Thread.currentThread().getName() + "执行结果:" + b);
@@ -127,7 +127,7 @@ public class UserServiceTest {
         String username = RandomStringUtils.random(8, "abcdefghasdkfjlasdf");
         BlogUser user = new BlogUser();
         user.setUsername(username);
-        user.setMail("npc2048@cbc.com");
+        user.setEmail("npc2048@cbc.com");
         user.setPassword("12333");
         this.userService.save(user);
         System.out.println(JsonUtils.toJson(user));

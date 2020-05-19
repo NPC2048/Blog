@@ -1,15 +1,9 @@
 <template>
-  <el-card class="el-card" header="登录">
-    <div slot="header">
-      <el-row justify="center">
-        <el-button type="text">登录</el-button>
-        <el-divider direction="vertical" />
-        <el-button type="text">注册</el-button>
-      </el-row>
-    </div>
+  <el-card class="el-card">
+    <UserFormHeader />
     <el-form ref="loginForm" :model="loginForm" :rules="rules">
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" prefix-icon="el-icon-user" placeholder="用户名或手机号"></el-input>
+        <el-input v-model="loginForm.username" prefix-icon="el-icon-user" placeholder="请输入用户名或邮箱"></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input v-model="loginForm.password" prefix-icon="el-icon-lock" placeholder="请输入密码" show-password></el-input>
@@ -36,6 +30,8 @@
 </template>
 <script>
   import Qs from 'qs';
+  import UserFormHeader from './UserFormHeader';
+
   export default {
     data() {
       return {
@@ -56,8 +52,10 @@
     methods: {
       login() {
         this.$axios.post("/login", Qs.stringify(this.$data.loginForm)).then(data => {
-          this.$message.info(data);
+          this.$message.info("登录成功");
           this.$store.state.token = data;
+          // 跳转到首页
+          this.$router.push("/")
         });
       },
       submitForm(formName) {
@@ -68,7 +66,10 @@
           this.login();
         });
       }
-  }
+    },
+    components: {
+        UserFormHeader
+    }
   }
 </script>
 <style scoped>
@@ -81,8 +82,7 @@
   .login {
     width: 85%;
   }
-
   .text-default {
-    color: #000;
+      color: #000;
   }
 </style>

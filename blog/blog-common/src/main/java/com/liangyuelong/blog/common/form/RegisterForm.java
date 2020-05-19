@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -26,6 +27,7 @@ public class RegisterForm extends LoginForm {
      * 邮箱
      */
     @NotBlank(message = "邮箱不能为空")
+    @Email(message = "邮箱格式错误")
     private String email;
 
 }

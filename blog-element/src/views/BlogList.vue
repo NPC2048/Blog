@@ -32,6 +32,11 @@
 <script>
   export default {
     name: 'blogList',
+    watch: {
+      $route() {
+        this.getList()
+      }
+    },
     data() {
       return {
         list: []
@@ -43,7 +48,7 @@
     methods: {
       getList() {
         this.get("/blog/list").then((data) => {
-          this.list = data;
+          this.list = data.records;
         })
       },
     }

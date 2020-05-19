@@ -25,7 +25,7 @@ public class RedisTest {
         RedisSerializer<?> redisSerializer = redisTemplate.getValueSerializer();
         System.out.println(redisSerializer);
         BlogUser user = new BlogUser();
-        user.setMail("npc24@qq.com");
+        user.setEmail("npc24@qq.com");
         redisTemplate.opsForValue().set("abc", user);
     }
 

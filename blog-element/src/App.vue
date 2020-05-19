@@ -10,9 +10,9 @@
           <el-menu-item index="/java">Java</el-menu-item>
           <el-menu-item index="/spring">Spring</el-menu-item>
           <el-menu-item route="tools.liangyuelong.com">小工具</el-menu-item>
-          <el-menu-item index="/vue" style="border: none">
-            <i class="el-icon-search"></i>
-            <el-input v-model="keyword" placeholder="请输入内容"/>
+          <el-menu-item style="border: none">
+            <i class="el-icon-search" @click="search"></i>
+            <el-input v-model="keyword" placeholder="请输入内容" @change="search"/>
           </el-menu-item>
           <el-menu-item index="/login" style="border: none; float: right">
             <i class="el-icon-user"></i>
@@ -41,6 +41,9 @@
       }
     },
     methods: {
+      search() {
+        this.$message.info("hello world")
+      }
     }
   }
 </script>

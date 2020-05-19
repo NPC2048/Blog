@@ -9,12 +9,13 @@ import com.liangyuelong.blog.common.form.LoginForm;
 import com.liangyuelong.blog.common.form.RegisterForm;
 import com.liangyuelong.blog.entity.BlogUser;
 import com.liangyuelong.blog.service.UserService;
+import com.liangyuelong.blog.utils.CommUtils;
 import com.liangyuelong.blog.utils.EmailUtils;
 import com.liangyuelong.blog.utils.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
@@ -43,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 @Controller
 @CacheConfig(cacheNames = "login")
 @Slf4j
-public class LoginController {
+public class UserController {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -62,7 +63,12 @@ public class LoginController {
 
 
     /**
-     * 邮箱注册
+     * 注册功能
+     * 1.验证基本输入信息
+     * 2.向输入的邮箱发送注册验证码
+     * - 2.1 邮箱发送队列？
+     * 3.注册验证码存入 redis
+     * 4.注册验证通过后
      *
      * @param form 邮箱注册表单
      * @return Result
@@ -81,17 +87,17 @@ public class LoginController {
         }
         // 根据邮箱从 redis 取邮箱验证码
         String verifyCode = (String) redisTemplate.opsForValue().get(form.getEmail());
-        // 如果 reids 里的验证码或与提交的不一致，返回验证码错误
+        // 如果 redis 里的验证码或与提交的不一致，返回验证码错误
         if (StringUtils.isEmpty(verifyCode) || !verifyCode.equals(form.getVerifyCode())) {
             return Result.failed("验证码错误");
         }
         // 新增用户
         user = new BlogUser();
-        user.setUsername(form.getUsername());
-        user.setPassword(form.getPassword());
-        user.setMail(form.getEmail());
+        BeanUtils.copyProperties(form, user);
         this.userService.save(user);
-        log.info("insert user: " + form.getUsername() + ", " + user.getMail());
+        // 从 redis 删除该邮箱验证码
+        redisTemplate.delete(form.getEmail());
+        log.info("insert user: " + form.getUsername() + ", " + user.getEmail());
         return Result.SUCCESS;
     }
 
@@ -99,29 +105,26 @@ public class LoginController {
      * 给指定邮箱发送验证码
      * 发送后存入 redis
      *
-     * @param mail 邮箱
+     * @param form 注册表单
      * @return Result
      */
     @PostMapping("/send_mail_verify_code")
     @ResponseBody
-    public Result sendMailVerifyCode(String mail) {
-        // 随机生成 6 位验证码
-        if (StringUtils.isBlank(mail)) {
-            return Result.failed("邮箱不能为空");
-        }
+    public Result sendMailVerifyCode(@Valid RegisterForm form) {
         // 判断邮箱是否存在
-        BlogUser blogUser = userService.getOne(new QueryWrapper<BlogUser>().eq("email", mail));
+        BlogUser blogUser = userService.getOne(new QueryWrapper<BlogUser>().eq("email", form.getEmail()));
         if (blogUser != null) {
             return Result.failed("该邮箱已注册");
         }
+        // 随机生成 6 位验证码
         String verifyCode = String.valueOf(RandomUtils.nextInt(100000, 1000000));
         // 发送邮件
-        boolean result = EmailUtils.sendTemplate(mail, MailTemplateEnum.VERIFY_CODE, verifyCode);
+        boolean result = EmailUtils.sendTemplate(form.getEmail(), MailTemplateEnum.VERIFY_CODE, verifyCode);
         if (!result) {
             return Result.failed("发送失败，请稍后重试");
         }
         // 发送成功，存入 redis
-        redisTemplate.opsForValue().set(mail, verifyCode, 6, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(form.getEmail(), verifyCode, 6, TimeUnit.MINUTES);
         return Result.SUCCESS;
     }
 
@@ -151,10 +154,16 @@ public class LoginController {
     @ResponseBody
     public Result login(@Valid LoginForm form) {
         // 判断登录次数是否已经超过 3 次
-        int loginNumber = NumberUtils.toInt((String) redisTemplate.opsForValue().get(GlobalConstants.LOGIN_NUM + form.getUsername()));
+        String loginNumberKey = GlobalConstants.LOGIN_NUM + form.getUsername();
+        int loginNumber = CommUtils.null2Int((Integer) redisTemplate.opsForValue().get(loginNumberKey));
         boolean isNeedValid = loginNumber > 3;
+        // 登录次数 + 1
+        redisTemplate.opsForValue().set(loginNumberKey, loginNumber + 1);
         if (isNeedValid) {
             // 判断验证码
+            if (StringUtils.isEmpty(form.getVerifyCode())) {
+                return Result.failed("请输入验证码");
+            }
             String verifyCode = (String) redisTemplate.opsForValue().get(GlobalConstants.VERIFY_CODE + form.getUsername());
             if (!StringUtils.equals(verifyCode, form.getVerifyCode())) {
                 // 这里直接返回错误提示，由前端重新获取新的验证码
@@ -171,7 +180,7 @@ public class LoginController {
         }
         if (blogUser == null) {
             redisTemplate.opsForValue().set(GlobalConstants.LOGIN_NUM, loginNumber + 1, 1, TimeUnit.HOURS);
-            return Result.failed("用户名|邮箱|密码错误");
+            return Result.failed("该用户不存在");
         }
 
         // 验证密码

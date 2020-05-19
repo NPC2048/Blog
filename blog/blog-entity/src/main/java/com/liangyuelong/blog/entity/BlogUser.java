@@ -31,7 +31,7 @@ public class BlogUser extends BaseEntity {
     /**
      * 邮箱
      */
-    private String mail;
+    private String email;
 
     @Version
     @TableField(fill = FieldFill.INSERT, update = "%s+1")
