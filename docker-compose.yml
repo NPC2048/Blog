@@ -8,6 +8,8 @@ services:
       blog-net:
         aliases:
           - blog-api
+    ports:
+      - 8091:8091
     restart: always
     # 日志文件保存在宿主机, 开启访问宿主机权限
     privileged: true
@@ -21,6 +23,8 @@ services:
     container_name: blog-element
     networks:
       - blog-net
+    ports:
+      - 80:80
     restart: always
     privileged: true
     # 映射目录
