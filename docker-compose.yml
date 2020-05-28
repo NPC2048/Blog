@@ -4,21 +4,21 @@ services:
   blog-api:
     image: java:8
     container_name: blog-api
-    #    network_mode: "host"
     networks:
-      - blog-net
+      blog-net:
+        aliases:
+          - blog-api
     restart: always
     # 日志文件保存在宿主机, 开启访问宿主机权限
     privileged: true
     working_dir: /app
     volumes:
-      - ./blog-api-1.0.0.jar:/app/app.jar
+      - ./blog-api.jar:/app/app.jar
     command: java -jar app.jar
   # blog 前端
   blog-element:
     image: nginx
     container_name: blog-element
-    #    network_mode: "host"
     networks:
       - blog-net
     restart: always
