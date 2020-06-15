@@ -33,7 +33,6 @@ public class BlogController {
     @RequestMapping("/list")
     public Result list(BlogPageForm form) {
         QueryWrapper<Blog> wrapper = Wrappers.emptyWrapper();
-        wrapper.orderByDesc("create_time");
         return Result.success(blogService.page(form, wrapper));
     }
 

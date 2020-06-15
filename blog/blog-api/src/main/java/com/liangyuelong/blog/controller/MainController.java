@@ -1,9 +1,9 @@
 package com.liangyuelong.blog.controller;
 
 import com.liangyuelong.blog.common.Result;
-import com.liangyuelong.blog.utils.JsonUtils;
 import com.liangyuelong.blog.service.BlogService;
 import com.liangyuelong.blog.service.UserService;
+import com.liangyuelong.blog.utils.JsonUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,6 +43,5 @@ public class MainController {
         System.out.println(JsonUtils.toJson(Result.success(userService.list())));
         return Mono.just(Result.success(userService.list()));
     }
-
 
 }

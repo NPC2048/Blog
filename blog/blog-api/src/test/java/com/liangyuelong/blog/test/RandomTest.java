@@ -2,11 +2,9 @@ package com.liangyuelong.blog.test;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.cglib.core.ReflectUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class RandomTest {
 
@@ -54,4 +52,22 @@ public class RandomTest {
         return list;
     }
 
+    @Test
+    void clazz() {
+        String b = new String("");
+        System.out.println(!b.equals(""));
+        System.out.println(Object[].class.getClassLoader());
+        System.out.println(int[].class.getClassLoader());
+        System.out.println(List.class.getClassLoader());
+        String[] a = {"a"};
+        System.out.println(a instanceof Object[]);
+        System.out.println(int[].class);
+        System.out.println(a.getClass());
+        List<String> list = new ArrayList<>();
+        System.out.println(list.getClass());
+        System.out.println(ReflectUtils.newInstance(list.getClass()));
+        List<String> newList = (List<String>) ReflectUtils.newInstance(list.getClass());
+        newList.add("s");
+        System.out.println(newList);
+    }
 }

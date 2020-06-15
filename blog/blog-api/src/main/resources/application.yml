@@ -49,3 +49,4 @@ qiniu:
 logging:
   file:
     name: spring.log
+    clean-history-on-start: true
