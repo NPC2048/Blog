@@ -41,6 +41,7 @@
       login() {
         this.$axios.post("/login", Qs.stringify(this.$data.loginForm)).then(data => {
           this.$store.state.token = data.data;
+          this.$message.info(JSON.stringify(data.data));
           // 跳转到首页
           this.$router.push('/');
         });

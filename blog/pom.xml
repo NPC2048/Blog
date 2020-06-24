@@ -132,4 +132,7 @@
         <!-- test end -->
     </dependencies>
 
+    <build>
+        <finalName>${project.name}</finalName>
+    </build>
 </project>
