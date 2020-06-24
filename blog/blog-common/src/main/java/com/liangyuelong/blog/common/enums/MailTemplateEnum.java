@@ -10,7 +10,8 @@ import lombok.Setter;
  */
 public enum MailTemplateEnum {
     // 验证码
-    VERIFY_CODE("梁跃珑的个人博客", "<html><body>您正在注册梁跃珑个人博客的账号， 这是您的验证码：<span style='color: #6cf'>{0}</span></body></html>");
+    VERIFY_CODE("梁跃珑的个人博客",
+            "<html><body>您正在注册梁跃珑个人博客的账号， 这是您的验证码：<span style='color: #6cf'>{0}</span><br>有效期 {1} 分钟</body></html>");
 
     /**
      * 主题

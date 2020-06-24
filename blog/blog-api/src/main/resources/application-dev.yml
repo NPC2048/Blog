@@ -2,7 +2,7 @@ server:
   port: 8091
 spring:
   datasource:
-    url: jdbc:mysql://139.159.236.186/xianyan?pinGlobalTxToPhysicalConnection=true&autoReconnect=true&useUnicode=true&serverTimezone=GMT%2b8&useSSL=false&characterEncoding=utf-8
+    url: jdbc:mysql://139.159.236.186:6606/xianyan?pinGlobalTxToPhysicalConnection=true&autoReconnect=true&useUnicode=true&serverTimezone=GMT%2b8&useSSL=false&characterEncoding=utf-8
     username: root
     password: MySql@#$123
     hikari:

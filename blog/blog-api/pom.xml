@@ -16,6 +16,7 @@
             <groupId>com.liangyuelong</groupId>
             <artifactId>blog-core</artifactId>
         </dependency>
+        <!-- spring boot begin -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -38,6 +39,11 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <!-- spring boot end -->
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -57,6 +63,10 @@
         <dependency>
             <groupId>fastutil</groupId>
             <artifactId>fastutil</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>

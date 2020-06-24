@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /**
  * 注册表单
@@ -15,6 +16,13 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RegisterForm extends LoginForm {
+
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "用户名不能为空")
+    @Pattern(regexp = "[\\w-]+", message = "用户名格式错误, 只能为大写、小写、-、下划线组成, 不能含有其他特殊符号")
+    private String username;
 
     /**
      * 确认密码

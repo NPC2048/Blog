@@ -3,7 +3,7 @@
     <UserFormHeader></UserFormHeader>
     <el-form ref="registerForm" :model="registerForm" :rules="rules">
       <el-form-item prop="email">
-        <el-input v-model="registerForm.email" prefix-icon="el-icon-message" placeholder="请输入用户名"/>
+        <el-input v-model="registerForm.email" prefix-icon="el-icon-message" placeholder="请输入邮箱"/>
       </el-form-item>
       <el-form-item prop="username">
         <el-input v-model="registerForm.username" prefix-icon="el-icon-user" placeholder="请输入用户名"/>
@@ -20,7 +20,7 @@
             <el-input v-model="registerForm.verifyCode" prefix-icon="el-icon-lock" placeholder="请输入验证码" show-password/>
           </el-col>
           <el-col :span="8">
-            <el-button @click="getMailCode('registerForm')">获取验证码</el-button>
+            <el-button ref="getMailCode" @click="getMailCode('registerForm')">获取验证码</el-button>
           </el-col>
         </el-row>
       </el-form-item>
@@ -83,6 +83,7 @@
             return false;
           }
           console.log(this);
+          this.$refs.getMailCode.loading=true;
           // this.$axios.post("/send_mail_verify_code", Qs.stringify(this.$data.registerForm)).then(data => {
           //   this.$message.info("获取验证码成功");
           //   this.$message.info(JSON.stringify(data));

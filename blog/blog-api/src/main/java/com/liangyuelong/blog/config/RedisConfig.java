@@ -54,7 +54,7 @@ public class RedisConfig {
         Set<String> cacheNames = new HashSet<>();
         cacheNames.add(CacheKeyConstants.DEFAULT_CACHE_NAME);
         // 配置对应配置
-        Map<String, RedisCacheConfiguration> cacheConfigMap = new HashMap<>();
+        Map<String, RedisCacheConfiguration> cacheConfigMap = new HashMap<>(2);
         cacheConfigMap.put(CacheKeyConstants.DEFAULT_CACHE_NAME, redisCacheConfiguration);
         // 配置缓存管理器
         return RedisCacheManager.builder(lettuceConnectionFactory)

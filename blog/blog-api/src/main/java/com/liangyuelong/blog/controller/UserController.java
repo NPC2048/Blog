@@ -3,7 +3,9 @@ package com.liangyuelong.blog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.liangyuelong.blog.common.NoLogException;
 import com.liangyuelong.blog.common.Result;
+import com.liangyuelong.blog.common.constant.CacheKeyConstants;
 import com.liangyuelong.blog.common.constant.GlobalConstants;
+import com.liangyuelong.blog.common.constant.SymbolConstants;
 import com.liangyuelong.blog.common.enums.MailTemplateEnum;
 import com.liangyuelong.blog.common.form.LoginForm;
 import com.liangyuelong.blog.common.form.RegisterForm;
@@ -13,10 +15,11 @@ import com.liangyuelong.blog.utils.CommUtils;
 import com.liangyuelong.blog.utils.EmailUtils;
 import com.liangyuelong.blog.utils.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -86,7 +89,8 @@ public class UserController {
             return Result.failed("两次密码输入不一致");
         }
         // 根据邮箱从 redis 取邮箱验证码
-        String verifyCode = (String) redisTemplate.opsForValue().get(form.getEmail());
+        String key = CacheKeyPrefix.simple().compute("email") + form.getEmail();
+        String verifyCode = (String) redisTemplate.opsForValue().get(key);
         // 如果 redis 里的验证码或与提交的不一致，返回验证码错误
         if (StringUtils.isEmpty(verifyCode) || !verifyCode.equals(form.getVerifyCode())) {
             return Result.failed("验证码错误");
@@ -96,7 +100,7 @@ public class UserController {
         BeanUtils.copyProperties(form, user);
         this.userService.save(user);
         // 从 redis 删除该邮箱验证码
-        redisTemplate.delete(form.getEmail());
+        redisTemplate.delete(key);
         log.info("insert user: " + form.getUsername() + ", " + user.getEmail());
         return Result.SUCCESS;
     }
@@ -111,20 +115,22 @@ public class UserController {
     @PostMapping("/send_mail_verify_code")
     @ResponseBody
     public Result sendMailVerifyCode(@Valid RegisterForm form) {
+        // 判断发送时间
+        String key = CacheKeyConstants.REGISTER + form.getEmail();
         // 判断邮箱是否存在
         BlogUser blogUser = userService.getOne(new QueryWrapper<BlogUser>().eq("email", form.getEmail()));
         if (blogUser != null) {
             return Result.failed("该邮箱已注册");
         }
         // 随机生成 6 位验证码
-        String verifyCode = String.valueOf(RandomUtils.nextInt(100000, 1000000));
+        String verifyCode = RandomStringUtils.random(6, false, true);
         // 发送邮件
-        boolean result = EmailUtils.sendTemplate(form.getEmail(), MailTemplateEnum.VERIFY_CODE, verifyCode);
+        boolean result = EmailUtils.sendTemplate(form.getEmail(), MailTemplateEnum.VERIFY_CODE, verifyCode, 6);
         if (!result) {
             return Result.failed("发送失败，请稍后重试");
         }
         // 发送成功，存入 redis
-        redisTemplate.opsForValue().set(form.getEmail(), verifyCode, 6, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key, verifyCode, 6, TimeUnit.MINUTES);
         return Result.SUCCESS;
     }
 
@@ -172,10 +178,12 @@ public class UserController {
         }
         // 正则表达式判断是用户名登录还是邮箱登录
         BlogUser blogUser;
-        if (!form.getUsername().contains("@")) {
+        // AT 即为 @
+        if (!form.getUsername().contains(SymbolConstants.AT)) {
             // 邮箱登录
             blogUser = this.userService.selectByUsername(form.getUsername());
         } else {
+            // 用户名登录
             blogUser = this.userService.selectByMail(form.getUsername());
         }
         if (blogUser == null) {

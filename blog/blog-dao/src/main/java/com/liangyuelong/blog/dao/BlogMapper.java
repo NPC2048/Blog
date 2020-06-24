@@ -9,6 +9,9 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface BlogMapper extends BaseMapper<Blog> {
 
+    /**
+     * 查询所有内容
+     */
     @Select("select * from blog_blog")
     void findAll();
 

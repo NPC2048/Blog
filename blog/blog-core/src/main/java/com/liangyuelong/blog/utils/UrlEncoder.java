@@ -23,14 +23,13 @@ public class UrlEncoder {
 
     static {
         dontNeedEncoding = new BitSet(256);
-        int i;
-        for (i = 'a'; i <= 'z'; i++) {
+        for (int i = 'a', z = 'z'; i <= z; i++) {
             dontNeedEncoding.set(i);
         }
-        for (i = 'A'; i <= 'Z'; i++) {
+        for (int i = 'A', z = 'Z'; i <= z; i++) {
             dontNeedEncoding.set(i);
         }
-        for (i = '0'; i <= '9'; i++) {
+        for (int i = '0', n = '9'; i <= n; i++) {
             dontNeedEncoding.set(i);
         }
         dontNeedEncoding.set(' ');
