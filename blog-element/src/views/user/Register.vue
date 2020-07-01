@@ -82,8 +82,7 @@
           if (!valid) {
             return false;
           }
-          console.log(this);
-          this.$refs.getMailCode.loading=true;
+          // this.$refs.getMailCode.loading=true;
           // this.$axios.post("/send_mail_verify_code", Qs.stringify(this.$data.registerForm)).then(data => {
           //   this.$message.info("获取验证码成功");
           //   this.$message.info(JSON.stringify(data));

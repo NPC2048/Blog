@@ -5,7 +5,8 @@ target/
 !**/src/test/**
 !**/src/main/resources/application-prod.yml
 *-prod.yml
-
+!**/yarn.lock
+!**/package-lock.json
 ### STS ###
 .apt_generated
 .classpath
